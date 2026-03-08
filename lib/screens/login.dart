@@ -1,4 +1,78 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kigalicity/screens/home/home_screen.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+import '../providers/auth_provider.dart';
+import 'signup.dart';
+// import 'home/home_screen.dart';
+
+class Login extends ConsumerStatefulWidget {
+  const Login({super.key});
+
+  @override
+  ConsumerState<Login> createState() => _LoginState();
+}
+
+class _LoginState extends ConsumerState<Login> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  bool _hidePassword = true;
+  bool _rememberMe = false;
+
+  final RegExp _emailRegex = RegExp(r'^[\w\.\-]+@([\w\-]+\.)+[A-Za-z]{2,}$');
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Email is required';
+    }
+
+    final trimmedValue = value.trim();
+
+    if (!_emailRegex.hasMatch(trimmedValue)) {
+      return 'Please enter a valid email address';
+    }
+
+    final lowerValue = trimmedValue.toLowerCase();
+    if (lowerValue.endsWith('.con') || lowerValue.endsWith('.cim')) {
+      return 'Did you mean .com?';
+    }
+
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
+
+    if (value.length < 6) {
+      return 'Password must be at least 6 characters';
+    }
+
+    return null;
+  }
+
+  void _onLoginPressed() async {
+    final isValid = _formKey.currentState?.validate() ?? false;
+    if (!isValid) return;
+
+    final email = _emailController.text.trim();
+    final pass = _passwordController.text;
+
+    // Use Riverpod notifier for login
+    await ref
+        .read(authNotifierProvider.notifier)
+        .signIn(email: email, password: pass);
+  }
 
   @override
   Widget build(BuildContext context) {
