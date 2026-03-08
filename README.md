@@ -1,6 +1,6 @@
 # Kigali City Directory
 
-A Flutter-based mobile application for exploring and managing businesses, public services, and points of interest in Kigali, Rwanda. The app provides a comprehensive directory with map integration, category filtering, and user-generated listings.
+A Flutter-based mobile application for exploring businesses, public services, and points of interest in Kigali, Rwanda. The app provides a comprehensive directory with map integration, category filtering, and user-generated listings.
 
 ---
 
@@ -33,14 +33,14 @@ A Flutter-based mobile application for exploring and managing businesses, public
 
 ### Available Categories
 
-- 🏥 Hospital
-- 🚔 Police Station
-- 📚 Public Library
-- 🍽️ Restaurant
-- ☕ Café
-- 🌳 Park
-- 🏛️ Tourist Attraction
-- 🏢 Utility Office
+- Hospital
+- Police Station
+- Public Library
+- Restaurant
+- Café
+- Park
+- Tourist Attraction
+- Utility Office
 
 ---
 
@@ -50,14 +50,13 @@ A Flutter-based mobile application for exploring and managing businesses, public
 |------------|---------|---------|
 | **Flutter** | ^3.10.4 | Cross-platform UI framework |
 | **Dart** | SDK ^3.10.4 | Programming language |
-| **Riverpod** | ^3.2.1 | State management |
 | **flutter_riverpod** | ^3.2.1 | Flutter-specific Riverpod widgets |
-| **Firebase Core** | ^3.12.1 | Firebase initialization |
-| **Firebase Auth** | ^5.5.2 | User authentication |
-| **Cloud Firestore** | ^5.6.6 | NoSQL database |
-| **Google Maps Flutter** | ^2.10.0 | Map integration |
-| **URL Launcher** | ^6.3.1 | External directions/navigation |
-| **Shared Preferences** | ^2.3.4 | Local storage |
+| **Firebase Core** | ^4.5.0 | Firebase initialization |
+| **Firebase Auth** | ^6.2.0 | User authentication |
+| **Cloud Firestore** | ^6.1.3 | NoSQL database |
+| **Google Maps Flutter** | ^2.15.0 | Map integration |
+| **URL Launcher** | ^6.3.2 | External directions/navigation |
+| **Shared Preferences** | ^2.5.4 | Local storage |
 
 ---
 
@@ -86,11 +85,11 @@ listings/
 **Example Document:**
 ```json
 {
-  "name": "Kigali Memorial Centre",
+  "name": "Kigali Memorial Cite",
   "category": "Tourist Attraction",
   "address": "Kigali, Rwanda",
-  "contactNumber": "+250 788 123 456",
-  "description": "A memorial to the 1994 genocide...",
+  "contactNumber": "+250 796 200 584",
+  "description": "A memorial cite of the 1994 genocide...",
   "latitude": -1.9536,
   "longitude": 30.0606,
   "createdBy": "user_abc123xyz",
@@ -114,8 +113,8 @@ users/
 **Example Document:**
 ```json
 {
-  "name": "John Doe",
-  "email": "john@example.com",
+  "name": "Cyupe Principie",
+  "email": "p.cyubahiro@cyupe.com",
   "notificationsEnabled": false,
   "createdAt": "2024-01-10T08:00:00.000Z"
 }
@@ -131,7 +130,7 @@ The application uses **Riverpod** (specifically Riverpod v3) for state managemen
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                      Riverpod Providers                      │
+│                      Riverpod Providers                     │
 ├─────────────────────────────────────────────────────────────┤
 │  ┌─────────────────┐    ┌─────────────────┐                 │
 │  │ Auth Providers  │    │ Listing Providers│                │
@@ -140,18 +139,18 @@ The application uses **Riverpod** (specifically Riverpod v3) for state managemen
 │  │ - currentUser   │    │ - listingNotifier│                │
 │  │ - userProfile   │    │ - ListingState   │                │
 │  │ - authNotifier  │    │                  │                │
-│  └─────────────────┘    └──────────────────┘                 │
+│  └─────────────────┘    └──────────────────┘                │
 ├─────────────────────────────────────────────────────────────┤
-│                     Service Layer                            │
+│                     Service Layer                           │
 │  ┌─────────────────┐    ┌─────────────────┐                 │
 │  │ AuthService     │    │ ListingService  │                 │
-│  │ - signIn        │    │ - getAllListings│                │
-│  │ - signUp        │    │ - createListing │                │
-│  │ - signOut       │    │ - updateListing│                │
-│  │ - getUserProfile│    │ - deleteListing │                │
+│  │ - signIn        │    │ - getAllListings│                 │
+│  │ - signUp        │    │ - createListing │                 │
+│  │ - signOut       │    │ - updateListing│                  │
+│  │ - getUserProfile│    │ - deleteListing │                 │
 │  └─────────────────┘    └─────────────────┘                 │
 ├─────────────────────────────────────────────────────────────┤
-│                    Firestore Database                        │
+│                    Firestore Database                       │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -161,21 +160,21 @@ The application uses **Riverpod** (specifically Riverpod v3) for state managemen
 
 | Provider | Type | Description |
 |----------|------|-------------|
-| [`authServiceProvider`](lib/providers/auth_provider.dart:6) | `Provider` | Singleton service for auth operations |
-| [`currentUserProvider`](lib/providers/auth_provider.dart:12) | `StreamProvider` | Streams Firebase Auth state changes |
-| [`userProfileProvider`](lib/providers/auth_provider.dart:18) | `FutureProvider.family` | Fetches user profile by UID |
-| [`authNotifierProvider`](lib/providers/auth_provider.dart:70) | `NotifierProvider` | Manages auth state and actions |
+| [`authServiceProvider`](lib/providers/auth_provider.dart) | `Provider` | Singleton service for auth operations |
+| [`currentUserProvider`](lib/providers/auth_provider.dart) | `StreamProvider` | Streams Firebase Auth state changes |
+| [`userProfileProvider`](lib/providers/auth_provider.dart) | `FutureProvider.family` | Fetches user profile by UID |
+| [`authNotifierProvider`](lib/providers/auth_provider.dart) | `NotifierProvider` | Manages auth state and actions |
 
 #### Listing Providers
 
 | Provider | Type | Description |
 |----------|------|-------------|
-| [`listingServiceProvider`](lib/providers/listing_provider.dart:6) | `Provider` | Singleton service for Firestore operations |
-| [`listingNotifierProvider`](lib/providers/listing_provider.dart:44) | `NotifierProvider` | Manages listing state, filtering, and CRUD |
+| [`listingServiceProvider`](lib/providers/listing_provider.dart) | `Provider` | Singleton service for Firestore operations |
+| [`listingNotifierProvider`](lib/providers/listing_provider.dart) | `NotifierProvider` | Manages listing state, filtering, and CRUD |
 
 ### State Classes
 
-#### [`ListingState`](lib/providers/listing_provider.dart:11)
+#### [`ListingState`](lib/providers/listing_provider.dart)
 ```dart
 class ListingState {
   final bool isLoading;
@@ -186,7 +185,7 @@ class ListingState {
 }
 ```
 
-#### [`AuthState`](lib/providers/auth_provider.dart:27)
+#### [`AuthState`](lib/providers/auth_provider.dart)
 ```dart
 class AuthState {
   final bool isLoading;
@@ -204,6 +203,7 @@ class AuthState {
 ```
 lib/
 ├── main.dart                    # App entry point with Riverpod setup
+├── firebase_options.dart                    # Auto-generated file for firebase by cli    
 ├── models/
 │   ├── listing.dart             # Listing data model & categories
 │   └── user_profile.dart        # User profile data model
@@ -249,9 +249,10 @@ lib/
 
 ### Installation
 
-1. **Clone the repository**
+1. **Clone the repository cd into the Kigali-Directory**
    ```bash
-   cd kigalicity
+   git clone https://github.com/PrincipieCyupe/Kigali-Directory
+   cd Kigali-Directory
    ```
 
 2. **Install dependencies**
@@ -259,11 +260,7 @@ lib/
    flutter pub get
    ```
 
-3. **Configure Firebase**
-   
-   Place your `google-services.json` in `android/app/` for Android.
-
-4. **Run the app**
+3. **Run the app**
    ```bash
    flutter run
    ```
@@ -299,9 +296,23 @@ match /users/{userId} {
 
 The app features:
 - **Directory Screen**: List view with search and category filters
+  
+  <img width="675" height="1080" alt="image" src="https://github.com/user-attachments/assets/19780889-63dd-45c6-87ff-c08797793094" />
+
 - **My Listings Screen**: User's personal listings management
+
+  <img width="675" height="1080" alt="image" src="https://github.com/user-attachments/assets/996e7303-ba45-42ad-8418-282072dbb612" />
+
+  
 - **Map View**: Interactive Google Maps with all listings
+
+  <img width="675" height="1080" alt="image" src="https://github.com/user-attachments/assets/cb9e0d3c-b88f-47b3-a744-311e9152505f" />
+
+  
 - **Settings Screen**: Profile and notification preferences
+
+  <img width="675" height="1080" alt="image" src="https://github.com/user-attachments/assets/2d35bba8-eef3-44b5-92e2-7485473f9049" />
+
 
 ---
 

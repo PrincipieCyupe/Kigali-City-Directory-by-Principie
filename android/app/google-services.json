@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "694692616292",
+    "project_id": "kglcity",
+    "storage_bucket": "kglcity.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694692616292:android:0620b813728de528772771",
+        "android_client_info": {
+          "package_name": "com.example.kigalicity"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBbh2fIqNHt9xMb3TDYKjtqUfNaZpsJBY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
